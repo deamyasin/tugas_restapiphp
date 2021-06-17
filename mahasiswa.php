@@ -14,22 +14,28 @@ switch ($request_method) {
 				$mhs->get_mhss();
 			}
 		} else {
-			jsonOut("gagal", "apikey not valid!!!", null);
+			$mhs->jsonOut();
 		}
-
-
 		break;
 	case 'POST':
-		if (!empty($_GET["id"])) {
-			$id = intval($_GET["id"]);
-			$mhs->update_mhs($id);
+		if ($keyuser == $key) {
+			if (!empty($_GET["id"])) {
+				$id = intval($_GET["id"]);
+				$mhs->update_mhs($id);
+			} else {
+				$mhs->insert_mhs();
+			}
 		} else {
-			$mhs->insert_mhs();
+			$mhs->jsonOut();
 		}
 		break;
 	case 'DELETE':
-		$id = intval($_GET["id"]);
-		$mhs->delete_mhs($id);
+		if ($keyuser == $key) {
+			$id = intval($_GET["id"]);
+			$mhs->delete_mhs($id);
+		} else {
+			$mhs->jsonOut();
+		}
 		break;
 	default:
 		// Invalid Request Method

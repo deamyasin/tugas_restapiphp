@@ -2,25 +2,28 @@
 require_once "koneksi.php";
 class Mahasiswa
 {
-	function getKey()
-	{
-		return ["1234", "rahasia", "xyz"];
-	}
+	// function getKey()
+	// {
+	// 	return ["1234", "rahasia", "xyz"];
+	// }
 
-	function isValid($input)
-	{
-		$apikey = $input["api_key"];
-		if (in_array($apikey, getKey())) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+	// function isValid($input)
+	// {
+	// 	$apikey = $input["api_key"];
+	// 	if (in_array($apikey, getKey())) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// }
 
-	public function jsonOut($status, $message, $data)
+	public function jsonOut()
 	{
-		$response = ["status" => $status, "message" => $message, "data" => $data];
-
+		$response = array(
+			'status' => 'Gagal',
+			'message' => 'api key tidak valid',
+			'data' => null
+		);
 		header("Content-type: application/json");
 		echo json_encode($response);
 	}
