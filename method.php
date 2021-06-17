@@ -1,23 +1,28 @@
 <?php
 require_once "koneksi.php";
+// class Key
+// {
+// 	public function getKey()
+// 	{
+// 		return ["1234", "rahasia", "xyz"];
+// 	}
+// }
 class Mahasiswa
 {
-	// function getKey()
-	// {
-	// 	return ["1234", "rahasia", "xyz"];
-	// }
 
-	// function isValid($input)
-	// {
-	// 	$apikey = $input["api_key"];
-	// 	if (in_array($apikey, getKey())) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
 
-	public function jsonOut()
+	public function isValid($input)
+	{
+		$apikey = !empty($input["api_key"]);
+		$getKey = ["1234", "rahasia", "xyz"];
+		if (in_array($apikey, $getKey)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function jsonOut2()
 	{
 		$response = array(
 			'status' => 'Gagal',
@@ -26,6 +31,14 @@ class Mahasiswa
 		);
 		header("Content-type: application/json");
 		echo json_encode($response);
+	}
+
+	function jsonOut($status, $message, $data)
+	{
+		$respon = ["status" => $status, "message" => $message, "data" => $data];
+
+		header("Content-type: application/json");
+		echo json_encode($respon);
 	}
 
 	public  function get_mhss()

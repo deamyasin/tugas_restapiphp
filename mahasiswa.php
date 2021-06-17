@@ -2,39 +2,39 @@
 require_once "method.php";
 $mhs = new Mahasiswa();
 $request_method = $_SERVER["REQUEST_METHOD"];
-$key = "1234";
-$keyuser = !empty($_GET["api_key"]);
+// $key = "1234";
+// $keyuser = !empty($_GET["api_key"]);
 switch ($request_method) {
 	case 'GET':
-		if ($keyuser == $key) {
-			if ((!empty($_GET["id"]))) {
-				$id = intval($_GET["id"]);
-				$mhs->get_mhs($id);
-			} else {
-				$mhs->get_mhss();
-			}
+		// if ($keyuser == $key) {
+		if (((!empty($_GET["id"]))) && ($mhs->isValid($_GET))) {
+			$id = intval($_GET["id"]);
+			$mhs->get_mhs($id);
+		} elseif (((empty($_GET["id"]))) && ($mhs->isValid($_GET))) {
+			$mhs->get_mhss();
 		} else {
-			$mhs->jsonOut();
+			$mhs->jsonOut("gagal", "apikey not valid!!!", null);
 		}
+		// } else {
+		// $mhs->jsonOut();
+		// }
 		break;
 	case 'POST':
-		if ($keyuser == $key) {
-			if (!empty($_GET["id"])) {
-				$id = intval($_GET["id"]);
-				$mhs->update_mhs($id);
-			} else {
-				$mhs->insert_mhs();
-			}
+		if (((!empty($_GET["id"]))) && ($mhs->isValid($_GET))) {
+			$id = intval($_GET["id"]);
+			$mhs->update_mhs($id);
+		} elseif (((empty($_GET["id"]))) && ($mhs->isValid($_GET))) {
+			$mhs->insert_mhs();
 		} else {
-			$mhs->jsonOut();
+			$mhs->jsonOut("gagal", "apikey not valid!!!", null);
 		}
 		break;
 	case 'DELETE':
-		if ($keyuser == $key) {
+		if (((!empty($_GET["id"]))) && ($mhs->isValid($_GET))) {
 			$id = intval($_GET["id"]);
 			$mhs->delete_mhs($id);
 		} else {
-			$mhs->jsonOut();
+			jsonOut("gagal", "apikey not valid!!!", null);
 		}
 		break;
 	default:
